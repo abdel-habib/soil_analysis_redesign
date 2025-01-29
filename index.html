@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Analysis</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- 
+        Todo:
+         - body margin
+
+    -->
+
+    <style>
+
+        /* Table styles */
+        th{
+            text-align: center;
+            text-transform: uppercase;
+            background-color: #f8f9fa;
+        }
+
+        .table-header {
+            background-color: #868686;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .table-header th {
+            white-space: nowrap; /* Prevent text wrapping */
+            width: auto; /* Adjust width to fit content */
+            padding: 0 !important;
+        }
+
+        .table-header th:first-child,
+        .table-header th:nth-child(2),
+        .table-header th:nth-child(3) {
+        width: 16.6%; /* 50% / 3 for the first 3 columns */
+        }
+        .table-header th:nth-child(4) {
+        width: 50%; /* The remaining 50% for the fourth column */
+        }
+
+        /* .table-bordered>:not(caption)>*>*{
+            border: 3px solid #000;
+            padding: 0 0.5rem;
+        } */
+
+        .table-bordered > tbody > tr > td,
+        .table-bordered > thead > tr > th {
+            padding: 0 0.5rem;
+        }
+
+        .table-bordered > thead,
+        .table-bordered > tbody,
+        .table-bordered > tfoot {
+            /* 
+        .table-bordered > tbody > tr */
+            border: 3px solid #000;
+        }
+
+        .table-bordered .bar-col {
+            
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+        }
+
+
+        .bar{
+            background-color: green;
+            position: absolute;
+            /* right: 0; */
+            left: 100%;
+            /*100% is 16.6% of all table width*/
+            /* 130% is 1 col of the righ col */
+            /* add the value inside the calc to automatically set the width */
+            width: calc(1*101%); 
+            max-width: calc(3*100%);
+            padding: 0;
+            height: 10px;
+            font-weight: bold;
+        }
+
+        .td-bar{
+            position: relative;
+            display: flex;
+            align-items: center;
+            /* border-top: 0 !important;
+            border-right: 0 !important;
+            border-left: 0 !important; */
+            border: 0;
+            height: 20px;
+        }
+
+    </style>
+    </style>
+    <div class="container-fluid">
+        <div class="container" id="soilAnalysisContainer">
+            <!-- select dropdown code goes here -->
+
+            <!-- table goes here -->
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th rowspan="2">ALBRECH <br> CATEGORY</th>
+                        <th rowspan="2">Your <br> Level</th>
+                        <th rowspan="2">Ideal <br> Level</th>
+                        <th colspan="3">Nutrient Status</th>
+                    </tr>
+                    <tr>
+                        <th>Low</th>
+                        <th>Medium</th>
+                        <th>High</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1st row format -->
+                    <!-- <tr>
+                        <td>Dummy data</td>
+                        <td>Dummy data</td>
+                        <td class="td-bar">
+                            <span>Dummy data</span>
+                            <span class="bar"></span>
+                        </td>
+                        <td class="bar-col" colspan="1" rowspan="2"></td>
+                        <td class="bar-col" colspan="1" rowspan="2"></td>
+                        <td class="bar-col" colspan="1" rowspan="2"></td>
+                    </tr> -->
+                    
+                    <!-- remaining rows format -->
+                    <!-- <tr>
+                        <td>Dummy data</td>
+                        <td>Dummy data</td>
+                        <td>Dummy data</td>
+                    </tr> -->
+                
+                    
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+        let csvData = {
+            "albrecht": {
+                "has_comparison": [
+                    // category, your level, ideal level minimum, ideal level maximum, metric
+                    ["CEC", "42.76", "", "", ""],
+                    ["TEC", "42.76", "", "", ""],
+                    ["Paramagnetism", "0", "", "200", "+"],
+                    ["pH-level (1:5) water", "7.90", "", "6.3", ""],
+                    ["Organic Matter (IR Gas Anal.)", "6.00", "4", "10", "%"],
+                    ["Organic Carbon", "N/A", "2", "5", "%"],
+                    ["Conductivity (1:5 water)", "0", "0.1", "0.2", "mS/cm"],
+                    ["Ca / Mg Ratio", "18.30", "", "7.00", ": 1"],
+                    ["Nitrate-N (KCI)", "1.8", "10", "20", "ppm"],
+                    ["Ammonium-N (KCI)", "7.2", "10", "20", "ppm"],
+                    ["Phosphorus (Mehlich III)", "72", "50", "70", "ppm"],
+                    ["Calcium (Mehlich III)", "7840", "", "5987", "ppm"],
+                    ["Magnesium (Mehlich III)", "257", "", "513", "ppm"],
+                    ["Potassium (Mehlich III)", "98", "334", "838", "ppm"],
+                    ["Sodium (Mehlich III)", "72", "49", "148", "ppm"],
+                    ["Sulphur (KCI)", "11", "40", "50", "ppm"],
+                    ["Chloride", "N/A", "16", "23", "ppm"],
+                    ["Aluminium (Mehlich III)", "77", "", "< 19", "ppm"],
+                    ["Silicon (CaCL2)", "0", "", "> 100", "ppm"],
+                    ["Boron (Hot CaCL2)", "0.92", "1", "3", "ppm"],
+                    ["Iron (DTPA)", "13", "40", "200", "ppm"],
+                ],
+
+                // Here are the rows that has two left columns without bars
+                // We need to separate them as they will contain a specific table design
+                "no_comparison": [
+                    ["Texture", 0],
+                    ["Colour", 0]
+                ]
+            }
+
+            /**
+             * 
+                "lamotte/reams":[
+                ]
+             * 
+            */
+        }
+
+        function extractAndJoinNumbers(str) {
+            return parseInt(str.replace(/\D/g, ""), 10);
+        }
+
+
+        function createRow(
+            format,
+            category, 
+            your_level, 
+            ideal_level_min,
+            ideal_level_max, 
+            metric,
+            row_idx, 
+            n_rows){
+                let row = '';
+                if (format == 'rowFormat3Col1Empty4th'){
+                    let barWidth = (your_level / extractAndJoinNumbers(ideal_level_max)) * 2;
+                    barWidth = barWidth < 0.1 ? 'Extremely Low' : barWidth;
+
+                    row = `
+                    <tr>
+                        <td>${category}</td>
+                        <td>${your_level} ${metric}</td>
+                        <td class="td-bar">
+                            <span>${ideal_level_min != ''? ideal_level_min+' - ': ''} ${ideal_level_max} ${metric}</span>
+                            ${ideal_level_max != '' ?
+                                `${barWidth == 'Extremely Low'? 
+                                `<span class="bar" style="background: none;"">${barWidth}</span>` : 
+                                `<span class="bar" style="width:calc(${barWidth}* 100%);"></span>`}` :
+                                ``}
+                            
+                        </td>
+                        ${row_idx == 0 ? `
+                            <td class="bar-col" colspan="1" rowspan="${n_rows}"></td>
+                            <td class="bar-col" colspan="1" rowspan="${n_rows}"></td>
+                            <td class="bar-col" colspan="1" rowspan="${n_rows}"></td>
+                            ` : ``}
+                    </tr>`;
+                }
+            return row;
+        }
+        
+
+        csvData.albrecht.has_comparison.forEach((data, index) => {
+            let table = document.querySelector("#soilAnalysisContainer table tbody");
+
+            console.log(data, index)
+            let row = createRow(
+                format= 'rowFormat3Col1Empty4th', 
+                category = data[0], 
+                your_level = data[1], 
+                ideal_level_min = data[2],
+                ideal_level_max = data[3], 
+                metric = data[4],
+                row_index = index, 
+                n_rows = csvData.albrecht.has_comparison.length);
+            
+            table.innerHTML += row;
+            // data.forEach((value, index) => {
+            //     let cell = document.createElement("td");
+            //     cell.textContent = value;
+            //     row.appendChild(cell);
+            // });
+            // table.appendChild(row);
+        });
+        
+    </script>
+
+    
+    <!-- Bootstrap JS -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
+</body>
+</html>
